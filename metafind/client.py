@@ -14,3 +14,7 @@ class Client(ABC):
     @abstractmethod
     def scrub_metadata(self):
         pass
+
+    @abstractmethod
+    def get_unique(self):
+        pass

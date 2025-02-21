@@ -53,3 +53,24 @@ def scrub(path: str, backend):
     except MetafindError as e:
         log.error(e)
         exit(e.error_code)
+
+
+@cli.command()
+@click.argument("path", required=True)
+@click.option(
+    "--backend",
+    help="specify a Metadata analyzer backend",
+    default="exiftool",
+    required=True,
+)
+def unique(path: str, backend):
+    """
+    Gets an alphabetized list of all unique metadata tags found within the file(s) at the specified path.
+    """
+    try:
+        client = get_client(backend, path)
+        result = client.get_unique()
+        print(result)
+    except MetafindError as e:
+        log.error(e)
+        exit(e.error_code)
