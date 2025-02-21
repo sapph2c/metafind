@@ -1,0 +1,25 @@
+[project]
+name = "metafind"
+version = "0.1.0"
+description = "Metadata Analysis CLI for CSEC-473"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "click>=8.1.8",
+    "rich>=13.9.4",
+]
+
+[project.scripts]
+metafind = "metafind.cli:cli"
+
+[tool.uv]
+package = true
+
+[dependency-groups]
+dev = [
+    "mkautodocs>=0.3.4.3",
+    "mkdocs-material>=9.6.5",
+    "pytest>=8.3.4",
+    "pytest-cov>=6.0.0",
+    "ruff>=0.9.7",
+]
