@@ -8,15 +8,7 @@ class Client(ABC):
     """
 
     @abstractmethod
-    def get_metadata_recursive(self):
-        pass
-
-    @abstractmethod
     def get_metadata(self):
-        pass
-
-    @abstractmethod
-    def scrub_metadata_recursive(self):
         pass
 
     @abstractmethod

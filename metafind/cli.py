@@ -1,9 +1,11 @@
 from metafind.logging import log
 from metafind.helper import get_client
 from metafind.errors import MetafindError
+from metafind.output import fetch_output
 
+from rich.console import Console
+from rich import print
 
-import rich
 import click
 
 
@@ -13,7 +15,7 @@ def cli():
 
 
 @cli.command()
-@click.option("--path", help="path of file(s) to analyze", required=True)
+@click.argument("path", required=True)
 @click.option(
     "--backend",
     help="specify a Metadata analyzer backend",
@@ -25,14 +27,17 @@ def fetch(path: str, backend):
     Retrieves a list of all metadata found within the file(s) at the specified path.
     """
     try:
+        console = Console()
         client = get_client(backend, path)
+        result = client.get_metadata()
+        console.print(fetch_output(result))
     except MetafindError as e:
         log.error(e)
         exit(e.error_code)
 
 
 @cli.command()
-@click.option("--path", help="path of file(s) to analyze", required=True)
+@click.argument("path", required=True)
 @click.option(
     "--backend",
     help="specify a Metadata analyzer backend",

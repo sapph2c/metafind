@@ -1,4 +1,4 @@
-from dataclass import dataclass, field
+from dataclasses import dataclass, field
 
 
 @dataclass(order=True)
@@ -17,3 +17,19 @@ class Metadata:
     parent: str = field(compare=False)
     tag: str = field(compare=True)
     value: str = field(compare=False)
+
+
+class Document:
+    """
+    Document is a class used to encapsulate file metadata.
+    """
+
+    def __init__(self, name: str):
+        self.name = name
+        self.metadata: list[Metadata] = []
+
+    def add_metadata(self, new_metadata: Metadata):
+        self.metadata.append(new_metadata)
+
+    def __repr__(self) -> str:
+        return f"{self.name}, {self.metadata}"
