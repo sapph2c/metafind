@@ -10,7 +10,7 @@ def get_client(backend: str, path: str) -> Client:
     """
     get_client returns a client for a metadata backend that has a standardized API for performing metadata analysis tasks.
     """
-    if not backend_exists(backend):
+    if not _backend_exists(backend):
         raise BackendNotFound(backend)
 
     match backend:
@@ -20,7 +20,7 @@ def get_client(backend: str, path: str) -> Client:
             raise UnsupportedBackend(backend)
 
 
-def backend_exists(backend: str):
+def _backend_exists(backend: str):
     """
     backend_exists checks if the backend is on the host.
 

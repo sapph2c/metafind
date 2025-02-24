@@ -1,5 +1,5 @@
 from metafind.logging import log
-from metafind.helper import get_client
+from metafind.clientfactory import get_client
 from metafind.errors import MetafindError
 from metafind.output import fetch_output
 
