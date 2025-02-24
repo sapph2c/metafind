@@ -1,6 +1,6 @@
 [project]
 name = "metafind"
-version = "1.0.0"
+version = "1.0.1"
 description = "Metadata analysis tool written for CSEC-473 - Penetration Testing"
 readme = "README.md"
 requires-python = ">=3.13"
