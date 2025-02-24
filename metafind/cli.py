@@ -6,8 +6,12 @@ from metafind.output import fetch_output
 
 from rich.console import Console
 
-import click
+
 import sys
+import click
+import signal
+
+_SIGINT_EXIT_CODE = 130
 
 
 def common_options(func):
@@ -27,10 +31,11 @@ def common_options(func):
 
 def handle_command(func):
     """
-    Decorator to create the backend client and CLI console, as well as handle any exceptions.
+    Decorator to create the backend client and CLI console, as well as handle any exceptions and signals.
     """
 
     def wrapper(path, backend, *args, **kwargs):
+        signal.signal(signal.SIGINT, handle_sigint)
         try:
             client = get_client(backend, path)
             console = Console()
@@ -45,12 +50,19 @@ def handle_command(func):
     return wrapper
 
 
+def handle_sigint(signum, frame):
+    """
+    Handler to gracefully exit when sigint is encountered.
+    """
+    sys.exit(_SIGINT_EXIT_CODE)
+
+
 @click.group()
 def cli():
     pass
 
 
-@cli.command()
+@cli.command(short_help="get file(s) metadata")
 @common_options
 @handle_command
 def fetch(client: Client, console: Console) -> None:
@@ -61,17 +73,21 @@ def fetch(client: Client, console: Console) -> None:
     console.print(fetch_output(result))
 
 
-@cli.command()
+@cli.command(short_help="scrub file(s) metadata")
 @common_options
 @handle_command
 def scrub(client: Client, console: Console):
     """
     Attempts to scrub all metadata found within the file(s) at the specified path.
     """
-    pass
+    mutable_tags, immutable_tags = client.scrub_metadata()
+    console.print("-------- mutable tags --------")
+    console.print(sorted(mutable_tags))
+    console.print("-------- immutable tags --------")
+    console.print(sorted(immutable_tags))
 
 
-@cli.command()
+@cli.command(short_help="get unique tags from file(s)")
 @common_options
 @handle_command
 def unique(client: Client, console: Console) -> None:
@@ -79,4 +95,4 @@ def unique(client: Client, console: Console) -> None:
     Gets an alphabetized list of all unique metadata tags found within the file(s) at the specified path.
     """
     result = client.get_unique_tags()
-    console.print(result)
+    console.print(sorted(result))

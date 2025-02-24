@@ -3,6 +3,7 @@ from metafind.models import Document
 
 from pathlib import Path
 import exiftool
+from exiftool.exceptions import ExifToolOutputEmptyError
 
 
 _TAGS_TO_SKIP = {"SourceFile", "ExifTool:ExifToolVersion", "ExifTool:Warning"}
@@ -17,14 +18,20 @@ class ExifToolClient(Client):
         self.client = exiftool.ExifToolHelper()
         self.path = path
 
-    def get_metadata(self):
+    def get_metadata(self) -> list[Document]:
         result = self.client.get_metadata(self.path)
         return [_make_new_doc(data) for data in result]
 
-    def scrub_metadata(self):
-        pass
+    def scrub_metadata(self) -> (list[str], list[str]):
+        all_tags = self.get_unique_tags()
+        try:
+            self.client.execute_json("-all= ", self.path)
+        except ExifToolOutputEmptyError:
+            immutable_tags = self.get_unique_tags()
+            mutable_tags = all_tags - immutable_tags
+            return sorted(mutable_tags), sorted(immutable_tags)
 
-    def get_unique_tags(self):
+    def get_unique_tags(self) -> set[str]:
         result = self.client.get_metadata(self.path)
         unique_tags = {
             tag.split(":", 1)[1]
@@ -32,7 +39,7 @@ class ExifToolClient(Client):
             for tag in data
             if tag not in _TAGS_TO_SKIP
         }
-        return sorted(unique_tags)
+        return unique_tags
 
 
 def _make_new_doc(data: dict) -> Document:
