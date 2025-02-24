@@ -1,5 +1,5 @@
 from metafind.client import Client
-from metafind.exiftool import ExifToolClient
+from metafind.exifclient import ExifToolClient
 from metafind.errors import UnsupportedBackend, BackendNotFound
 
 

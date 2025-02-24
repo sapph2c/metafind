@@ -1,17 +1,25 @@
-from metafind.logging import log
 from metafind.client import Client
 from metafind.clientfactory import get_client
 from metafind.errors import MetafindError
 from metafind.output import fetch_output
 
 from rich.console import Console
+from rich.logging import RichHandler
 
 
 import sys
 import click
 import signal
+import logging
 
 _SIGINT_EXIT_CODE = 130
+
+FORMAT = "%(message)s"
+logging.basicConfig(
+    level="NOTSET", format=FORMAT, datefmt="[%X]", handlers=[RichHandler()]
+)
+
+log = logging.getLogger("rich")
 
 
 def common_options(func):
@@ -41,7 +49,6 @@ def handle_command(func):
             console = Console()
             return func(client, console, *args, **kwargs)
         except MetafindError as e:
-            log.error(e)
             sys.exit(e.error_code)
 
     # Preserve function metadata (so click doesn't get confused)
@@ -59,6 +66,11 @@ def handle_sigint(signum, frame):
 
 @click.group()
 def cli():
+    """
+    Metadata analysis tool created for CSEC-473 - Penetration Testing.
+
+    Authored by sapph2c
+    """
     pass
 
 

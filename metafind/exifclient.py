@@ -2,8 +2,9 @@ from metafind.client import Client
 from metafind.models import Document
 
 from pathlib import Path
-import exiftool
 from exiftool.exceptions import ExifToolOutputEmptyError
+
+import exiftool
 
 
 _TAGS_TO_SKIP = {"SourceFile", "ExifTool:ExifToolVersion", "ExifTool:Warning"}
