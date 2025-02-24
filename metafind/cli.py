@@ -10,11 +10,6 @@ import click
 import sys
 
 
-@click.group()
-def cli():
-    pass
-
-
 def common_options(func):
     """
     Decorator to attach the same CLI options ('path', 'backend')
@@ -48,6 +43,11 @@ def handle_command(func):
     wrapper.__name__ = func.__name__
     wrapper.__doc__ = func.__doc__
     return wrapper
+
+
+@click.group()
+def cli():
+    pass
 
 
 @cli.command()
