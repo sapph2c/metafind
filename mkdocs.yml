@@ -1,0 +1,34 @@
+site_name: Metafind
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: astral-light
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: astral-dark
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+repo_url: https://github.com/sapph2c/metafind
+repo_name: mentat
+site_author: sapph2c 
+site_url: https://docs.sapph2c.dev/metafind/
+site_description: Metadata analysis tool written for CSEC-473 - Penetration Testing
+use_directory_urls: false
+plugins:
+  - search
+extra_css:
+  - stylesheets/extra.css
+nav:
+  - Home: index.md
+
+markdown_extensions:
+  - admonition
+  - codehilite
