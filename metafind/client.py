@@ -16,5 +16,5 @@ class Client(ABC):
         pass
 
     @abstractmethod
-    def get_unique(self):
+    def get_unique_tags(self):
         pass
