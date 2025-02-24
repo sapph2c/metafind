@@ -19,19 +19,19 @@ Metafind is available as a Python package on PyPI and can be installed using `uv
 
 Install using uv:
 
-```bash
+```
 uv install tool metafind@latest
 ```
 
 Install using pipx:
 
-```bash
+```
 pipx install metafind
 ```
 
 Install using pip:
 
-```bash
+```
 pip install metafind
 ```
 
@@ -46,7 +46,7 @@ pip install metafind
 
 CLI options:
 
-```bash
+```
 > metafind --help
 
 Usage: metafind [OPTIONS] COMMAND [ARGS]...
@@ -66,19 +66,19 @@ Commands:
 
 Retrieving file metadata:
 
-```bash
+```
 metafind fetch <path-to-file>
 ```
 
 Scrubbing metadata: (It's recommended to make a backup of the specified file(s), as this operation is non-reversible)
 
-```bash
+```
 metafind scrub <path-to-file>
 ```
 
 Listing all unique metadata tags:
 
-```bash
+```
 metafind unique <path-to-file>
 ```
 
